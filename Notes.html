@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input id="inputNote" placeholder="enter a note"><span><Button onclick="add()">Add</Button></span>
+        <p id="error"></p>
+        <p id="content" ></p>
+
+    </div>
+    <script>
+        let notes =[
+            {id:1 , Note:"Learn JavaScript"},
+            {id:2 , Note:"Learn HTML & CSS"}
+        ];
+        function showNotes(){
+            let content = document.getElementById("content");
+            for(i=0 ;i<notes.length ;i++){
+                
+                content.innerHTML += `${notes[i].id}. ${notes[i].Note} <br>`
+            }
+        }
+        showNotes();
+
+        isEditModeOn = false ;
+        editNote = null ;
+        
+        function add(){
+            if(document.getElementById("inputNote").value ===""){
+                document.getElementById("error").innerHTML = "Empty Field cannot be added";
+                return;
+            }else{
+                notes.push({id:notes.length+1 , Note:document.getElementById("inputNote").value})
+            }
+            showNotes();
+        }
+    </script>
+</body>
+</html>
