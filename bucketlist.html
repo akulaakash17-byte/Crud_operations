@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="flex flex-col justify-center items-center">
-        <input id="input" type="text" placeholder="enter a task into bucket list "><span><button onclick="add(event)">Add task</button></span>
+        <input id="input" type="text" placeholder="enter a task into bucket list "><span><button onclick="add(event)" id="btn"></button></span>
         <p id="error"></p>
         <div id="tasks"></div>
         
@@ -20,6 +20,10 @@
             {id:1 ,task:"Boxing"},
             {id:2 ,task:"Skydiving"}
         ];
+        let editMode = false ;
+        let editListId = null ;
+        document.getElementById("btn").innerHTML = "Add"
+
         function showTasks(){
             let content = '';
             for (let i=0 ; i < bucketList.length ;i++){
@@ -36,16 +40,29 @@
 
 //add
         function add(event){
+            
             let inputValue = document.getElementById("input").value;
             event.preventDefault();
-
+            document.getElementById("error").innerHTML = "";
             if (inputValue === ""){
                 document.getElementById("error").innerHTML = "input field is empty"
                 return;
             }
+            if(editMode === true){
+                for(let i = 0; i < bucketList.length; i++){
+                    if(bucketList[i].id === editListId){
+                        bucketList[i].task = inputValue;
+                    }
+                }
 
-            bucketList.push({id:bucketList.length+1 , task:inputValue})
-            console.log(bucketList)
+        editMode = false;
+        editListId = null;
+        document.getElementById("btn").innerHTML = "Add"
+            
+            }else{
+                bucketList.push({id:bucketList.length+1 , task:inputValue})
+                    console.log(bucketList)
+            }
           
             showTasks();
             document.getElementById("input").value = "";
@@ -62,15 +79,19 @@
 
         //update 
         function update(id){
-            
-                for (let i = 0 ;i <bucketList.length ;i++){
-
-                    if (bucketList[i].id === id){
+            editMode = true ;
+            editListId = id ;
+            if(editMode === true ){
+                document.getElementById("btn").innerHTML = "Update"
+                for (i=0 ; i<bucketList.length ;i++){
+                    if(bucketList[i].id === id){
                         document.getElementById("input").value = bucketList[i].task
                     }
                 }
-                deleting(id);
+            }
         }
+        
+
     </script>
 
 </body>
